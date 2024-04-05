@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# to get latest jupytercards, clone copy and then run`pyproject.toml` using `python -m pip install .`
+git clone https://github.com/jmshea/jupytercards.git
+cp -r jupytercards/* .
+python -m pip install .
+# clean up extra stuff that came along, just keep `example.ipynb`
+rm pyproject.toml
+rm google73e9274d2fa18926.html
+rm flashcards.gif
+rm README.md
+rm LICENSE
+rm .gitignore
+#rm -rf jupytercards
+
+# get the demo of passing query strings that works in Voila if you delete `localhost`
+curl -OL https://raw.githubusercontent.com/voila-dashboards/voila/b003a7fc62023e5b4c8dab7dd64b94a920610c15/notebooks/query-strings.ipynb
+sed -i 's/localhost//g' query-strings.ipynb 
+
+# this must be last line according to 
+# https://repo2docker.readthedocs.io/en/latest/config_files.html#start-run-code-before-the-user-sessions-starts
+exec "$@"
